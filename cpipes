@@ -1,0 +1,66 @@
+#!/usr/bin/env nextflow
+
+/*
+----------------------------------------------------------------------------------------
+    cfsan-dev/cpipes
+----------------------------------------------------------------------------------------
+    NAME          : CPIPES
+    DESCRIPTION   : Modular Nextflow pipelines at CFSAN, FDA.
+    GITLAB        : https://cfsan-git.fda.gov/Kranti.Konganti/cpipes-framework
+    JIRA          : https://sde.fda.gov/jira/projects/CPIPES/
+    CONTRIBUTORS  : Kranti.Konganti@fda.hhs.gov
+----------------------------------------------------------------------------------------
+*/
+
+// Enable DSL 2
+nextflow.enable.dsl = 2
+
+// Default routines for MAIN
+include { pipelineBanner; stopNow; } from "${params.routines}"
+
+// Our banner for CPIPES
+log.info pipelineBanner()
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    NAMED WORKFLOW CAN BE USED TO RUN A SPECIFIC PIPELINE. THIS IS THE RECOMMENDED WAY. 
+    NEED TO FIND A BETTER SOLUTION IF WE SEE A LOT OF PIPELINES.
+    See: https://github.com/nf-core/rnaseq/issues/619
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+switch ("${params.pipeline}") {
+    case "cronology":
+        include { CRONOLOGY } from "${params.workflows}${params.fs}${params.pipeline}"
+        break
+    case "cronology_db":
+        include { CRONOLOGY_DB } from "${params.workflows}${params.fs}${params.pipeline}"
+        break
+    default:
+        stopNow("PLEASE MENTION A PIPELINE NAME. Ex: --pipeline cronology")
+}
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    RUN ALL WORKFLOWS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+workflow {
+    // THIS IS REPETETIVE BUT WE ARE NOT ALLOWED TO INCLUDE "INCLUDE"
+    // INSIDE WORKFLOW
+    switch ("${params.pipeline}") {
+        case "cronology":
+            CRONOLOGY()
+            break
+        case "cronology_db":
+            CRONOLOGY_DB()
+            break
+    }
+}
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    THE END
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
