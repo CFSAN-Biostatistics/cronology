@@ -36,7 +36,7 @@ User(s) can also run pangenome analysis using `pirate` but this will considerabl
     - If your existing `JAVA` install does not support the newest **Nextflow** version, you can try **Amazon**'s `JAVA` (OpenJDK):  [Corretto](https://corretto.aws/downloads/latest/amazon-corretto-17-x64-linux-jdk.tar.gz).
 2. Either of `micromamba` (version `1.0.0`) or `docker` or `singularity` installed and made available in your `$PATH`.
     - Running the workflow via `micromamba` software provisioning is **preferred** as it does not require any `sudo` or `admin` privileges or any other configurations with respect to the various container providers.
-    - To install `micromamba` for your system type, please follow these [installation steps](https://mamba.readthedocs.io/en/latest/micromamba-installation.html#manual-installation) and make sure that the `micromamba` binary is made available in your `$PATH`.
+    - To install `micromamba` for your system type, please follow these [installation steps](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html#linux-and-macos) and make sure that the `micromamba` binary is made available in your `$PATH`.
     - Just the `curl` step is sufficient to download the binary as far as running the workflows are concerned.
     - Once you have finished the installation, **it is important that you downgrade `micromamba` to version `1.0.0`**.
 
@@ -44,7 +44,7 @@ User(s) can also run pangenome analysis using `pirate` but this will considerabl
         micromamba self-update --version 1.0.0
         ```
 
-3. Minimum of 10 CPU cores and about 16 GBs for main workflow steps. More memory may be required if your **FASTQ** files are big.
+3. Minimum of 10 CPU cores and about 60 GBs for main workflow steps. More memory may be required if your **FASTQ** files are big.
 
 \
 &nbsp;
@@ -271,7 +271,7 @@ my_aws_batch {
 
 `cronology` was tested on multiple internal sequencing runs and also on publicly available WGS run data. Please make sure that you have all the [minimum requirements](#minimum-requirements) to run the workflow.
 
-- Download public SRA data for Cronobacter: [SRR List](../assets/runs_public_cronobacter.txt). You can download a minimized set of sequencing runs for testing purposes.
+- Download public SRA data for **_Cronobacter_**: [SRR List](../assets/runs_public_cronobacter.txt). You can download a minimized set of sequencing runs for testing purposes.
 - Download pre-formatted full database for **NCBI Pathogens release**: [PDG000000043.213](https://research.foodsafetyrisk.org/cronology/PDG000000043.213.tar.bz2) (~500 MB).
 - After succesful run of the workflow, your **MultiQC** report should look something like [this](https://research.foodsafetyrisk.org/cronology/627_crono_multiqc_report.html).
 - It is always a best practice to use absolute UNIX paths and real destinations of symbolic links during pipeline execution. For example, find out the real path(s) of your absolute UNIX path(s) and use that for the `--input` and `--output` options of the pipeline.
