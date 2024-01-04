@@ -1,2 +1,0 @@
-# cronology
-cronology
