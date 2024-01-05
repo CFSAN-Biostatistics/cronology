@@ -336,7 +336,7 @@ Ex: cpipes --pipeline cronology --help fastp,polypolish
 --help dpubmlstpy               : Show dl_pubmlst_profiles_and_schemes.py CLI
                                   options CLI options
 --help fastp                    : Show fastp CLI options
---help spades                   : Show mash `screen` CLI options
+--help spades                   : Show spades CLI options
 --help shovill                  : Show shovill CLI options
 --help polypolish               : Show polypolish CLI options
 --help quast                    : Show quast.py CLI options
