@@ -280,7 +280,7 @@ my_aws_batch {
   realpath /hpc/scratch/user/input
   ```
 
-Now run the workflow by ignoring quality values since these are simulated base qualities:
+Now, run the workflow:
 
 \
 &nbsp;
