@@ -28,6 +28,18 @@ This work is currently unpublished. Please cite our **GitHub** page.
 \
 &nbsp;
 
+### Ribosomal Multilocus Sequence Typing (rMLST)
+
+---
+Use of `rMLST` as part of `cronology` is only for academic and non commercial use only.
+
+>
+>For full terms and conditions please see [rMLST_licence.pdf](https://pubmlst.org/static/rmlst/rMLST_licence.pdf). To discuss any other sort of use, including a commercial use licence, please contact <innovation@innovation.ox.ac.uk> quoting reference 7895/MC.
+>
+
+\
+&nbsp;
+
 ### Caveats
 
 ---
