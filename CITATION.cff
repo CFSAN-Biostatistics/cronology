@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+abstract: "cronology is an automated workflow for Cronobacter whole genome sequence assembly, subtyping and isolate clustering based on NCBI Pathogen Detection Project for Cronobacter."
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Konganti"
+  given-names: "Kranti"
+- family-names: "Ramachandran"
+  given-names: "Padmini"
+- family-names: "Pava-Ripoll"
+  given-names: "Monica"
+- family-names: "Jarvis"
+  given-names: "Karen"
+- family-names: "Balkey"
+  given-names: "Maria"
+- family-names: "Timme"
+  given-names: "Ruth"
+- family-names: "Gopinathrao"
+  given-names: "Gopal"
+- family-names: "Chen"
+  given-names: "Yi"
+- family-names: "Grim"
+  given-names: "Christopher"
+title: "cronology: An automated bioinformatics workflow for Cronobacter whole genome sequence assembly, subtyping and isolate clustering."
+version: 0.1.0
+date-released: 2024-01-04
+url: "https://github.com/CFSAN-Biostatistics/cronology"
+keywords:
+  - "nextflow"
+  - "cronobacter"
+  - "subtyping"
+  - "RMLST"
+  - "PubMLST"
+  - "ncbi-pathogens"
+  - "mlst"
+  - "nextflow-pipelines"
+license:
+  - MIT
