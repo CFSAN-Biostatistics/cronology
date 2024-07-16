@@ -15,6 +15,7 @@ process MASHTREE {
     output:
     tuple val(meta), path("*.dnd"), emit: tree
     tuple val(meta), path("*.tsv"), emit: matrix
+    tuple val(meta), path("*.nwk"), emit: nwk, optional: true
     path "versions.yml"           , emit: versions
 
     when:
@@ -43,6 +44,7 @@ process MASHTREE {
         $seqs
 
     sed -ie 's/_scaffolded_genomic//g' ${prefix}.dnd
+    cp ${prefix}.dnd ${prefix}.nwk
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

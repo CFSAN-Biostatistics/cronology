@@ -17,6 +17,7 @@ User(s) can also run pangenome analysis using `pirate` but this will considerabl
   - [Database](#database)
   - [Input](#input)
   - [Output](#output)
+  - [Sample Clustering](#sample-clustering)
   - [Computational resources](#computational-resources)
   - [Runtime profiles](#runtime-profiles)
   - [your_institution.config](#your_institutionconfig)
@@ -153,6 +154,18 @@ This goes without saying that all the FASTQ files should have uniform naming pat
 ---
 
 All the outputs for each step are stored inside the folder mentioned with the `--output` option. A `multiqc_report.html` file inside the `cronology-multiqc` folder can be opened in any browser on your local workstation which contains a consolidated brief report. The tree metadata which can be uploaded to [iTOL](https://itol.embl.de/) for visualization will be located in the `cat_unique` folder.
+
+\
+&nbsp;
+
+### Sample clustering
+
+---
+Since `v0.2.0`, `cronology` can automatically upload the `mashtree` generated output to [microreact.org](https://microreact.org). For this to work, create an account and [obtain your API access token from microreact.org](https://docs.microreact.org/api/access-tokens#obtain-your-api-access-token), and put it in a file named `microreact_api.key` and save it inside the [assets](../assets/) folder. If you do not wish to automatically upload the tree to [microreact.org](https://microreact.org), you can turn it off during the command call with `--upload_microreact false` CLI option.
+
+The tree URL generated will be stored inside the `upload_microreact` output folder.
+
+Example: [https://microreact.org/project/c9GcC9pJ622FeX27f2LFRT-cronologyruntree](https://microreact.org/project/c9GcC9pJ622FeX27f2LFRT-cronologyruntree)
 
 \
 &nbsp;

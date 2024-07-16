@@ -2,12 +2,12 @@
 
 /*
 ----------------------------------------------------------------------------------------
-    cfsan-dev/cpipes
+    cfsan/cpipes
 ----------------------------------------------------------------------------------------
     NAME          : CPIPES
     DESCRIPTION   : Modular Nextflow pipelines at CFSAN, FDA.
-    GITLAB        : https://cfsan-git.fda.gov/Kranti.Konganti/cpipes-framework
-    JIRA          : https://sde.fda.gov/jira/projects/CPIPES/
+    GITLAB        : https://xxxxxxxxx.fda.gov/Kranti.Konganti/cpipes-framework
+    JIRA          : https://xxxxxxxxx.fda.gov/jira/projects/CPIPES/
     CONTRIBUTORS  : Kranti.Konganti@fda.hhs.gov
 ----------------------------------------------------------------------------------------
 */
@@ -20,14 +20,6 @@ include { pipelineBanner; stopNow; } from "${params.routines}"
 
 // Our banner for CPIPES
 log.info pipelineBanner()
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOW CAN BE USED TO RUN A SPECIFIC PIPELINE. THIS IS THE RECOMMENDED WAY. 
-    NEED TO FIND A BETTER SOLUTION IF WE SEE A LOT OF PIPELINES.
-    See: https://github.com/nf-core/rnaseq/issues/619
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
 
 switch ("${params.pipeline}") {
     case "cronology":
@@ -47,8 +39,6 @@ switch ("${params.pipeline}") {
 */
 
 workflow {
-    // THIS IS REPETETIVE BUT WE ARE NOT ALLOWED TO INCLUDE "INCLUDE"
-    // INSIDE WORKFLOW
     switch ("${params.pipeline}") {
         case "cronology":
             CRONOLOGY()

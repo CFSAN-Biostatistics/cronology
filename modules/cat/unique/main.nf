@@ -12,8 +12,9 @@ process CAT_UNIQUE {
         tuple val(meta), path(file)
 
     output:
-        path '*_uniq.txt'  , emit: txt
-        path 'versions.yml', emit: versions
+        path '*_uniq.txt'   , emit: txt
+        path '*metadata.csv', emit: csv, optional: true
+        path 'versions.yml' , emit: versions
 
     when:
         task.ext.when == null || task.ext.when
@@ -27,6 +28,11 @@ process CAT_UNIQUE {
 
         head -n$skip "$file" > \$newfile
         tail -n+\$(($skip + 1)) "$file" | sort -n | uniq >> \$newfile
+
+        if [ "\$newfile" == "iTOL_metadata_uniq.txt" ]; then
+            head -n3 "$file"  | tail -n1 | sed -e 's/^FIELD_LABELS/ID/' > microreact_metadata.csv
+            tail -n+\$(($skip + 1)) "$file" | sort -n | uniq >> microreact_metadata.csv
+        fi
 
         uniqver=""
 

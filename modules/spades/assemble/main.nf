@@ -37,6 +37,7 @@ process SPADES_ASSEMBLE {
         $illumina_reads \\
         $pacbio_reads \\
         $nanopore_reads \\
+        --tmp-dir ${prefix}${params.fs}tmp
         -o ${prefix}
 
     cat <<-END_VERSIONS > versions.yml

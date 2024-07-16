@@ -2,7 +2,7 @@ process PROKKA {
     tag "$meta.id"
     label 'process_low'
 
-    module (params.enable_module ? "${params.swmodulepath}${params.fs}prokka${params.fs}1.14.6" : null)
+    module (params.enable_module ? "${params.swmodulepath}${params.fs}prokka${params.fs}1.14.5" : null)
     conda (params.enable_conda ? "bioconda::prokka=1.14.6 conda-forge::perl" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/prokka:1.14.6--pl5321hdfd78af_4' :

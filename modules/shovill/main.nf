@@ -31,6 +31,7 @@ process SHOVILL {
             --R1 ${reads[0]} \\
             --R2 ${reads[1]} \\
             $args \\
+            --tmpdir ${prefix}${params.fs}tmp \\
             --cpus $task.cpus \\
             --ram $memory \\
             --outdir $prefix \\

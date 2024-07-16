@@ -44,6 +44,7 @@ include { QUAST                    } from "${params.modules}${params.fs}quast${p
 include { RMLST_POST               } from "${params.modules}${params.fs}rmlst${params.fs}main"
 include { PIRATE                   } from "${params.modules}${params.fs}pirate${params.fs}main"
 include { MASHTREE                 } from "${params.modules}${params.fs}mashtree${params.fs}main"
+include { UPLOAD_MICROREACT        } from "${params.modules}${params.fs}upload_microreact${params.fs}main"
 include { MLST                     } from "${params.modules}${params.fs}mlst${params.fs}main"
 include { ABRICATE_RUN             } from "${params.modules}${params.fs}abricate${params.fs}run${params.fs}main"
 include { ABRICATE_SUMMARY         } from "${params.modules}${params.fs}abricate${params.fs}summary${params.fs}main"
@@ -61,6 +62,10 @@ def reads_platform = 0
 def abricate_dbs = [ 'ncbiamrplus', 'resfinder', 'megares', 'argannot' ]
 
 reads_platform += (params.input ? 1 : 0)
+
+if (params.upload_microreact) {
+    checkMetadataExists(params.microreact_api_key, 'Microreact API Key')
+}
 
 if (spades_custom_hmm && !spades_custom_hmm.exists()) {
     stopNow("Please check if the following SPAdes' custom HMM directory\n" +
@@ -227,6 +232,22 @@ workflow CRONOLOGY {
                 .collect()
         )
 
+        if (params.upload_microreact) {
+            UPLOAD_MICROREACT(
+                MASHTREE.out.nwk
+                    .map { meta, nwk ->
+                        nwk
+                    },
+                CAT_UNIQUE.out.csv
+            )
+
+            software_versions
+                .mix(
+                    UPLOAD_MICROREACT.out.versions
+                )
+                .set { software_versions }
+        }
+
         PRODKA( 
             ch_quast.ref_fasta,
             ch_quast.polished
@@ -349,6 +370,27 @@ workflow.onError {
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    METHOD TO CHECK FILE EXISTENCE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+def checkMetadataExists(file_path, msg) {
+    file_path_obj = file( file_path )
+
+    if (msg.toString().find(/(?i)KMA/)) {
+        if (!file_path_obj.parent.exists() || file_path_obj.parent.size() == 0) {
+            stopNow("Please check if your ${msg}\n" +
+                "[ ${file_path} ]\nexists and that the files are not of size 0.")
+        }
+    }
+    else if (!file_path_obj.exists() || file_path_obj.size() == 0) {
+        stopNow("Please check if your ${msg} file\n" +
+            "[ ${file_path} ]\nexists and is not of size 0.")
+    }
+}
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     HELP TEXT METHODS FOR CRONOLOGY WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
@@ -361,7 +403,7 @@ def help() {
     def uHelp = (params.help.getClass().toString() =~ /String/ ? params.help.tokenize(',').join(' ') : '')
 
     Map defaultHelp = [
-        '--help dpubmlstpy' : 'Show dl_pubmlst_profiles_and_schemes.py CLI options CLI options',
+        '--help dpubmlstpy' : 'Show dl_pubmlst_profiles_and_schemes.py CLI options',
         '--help fastp'      : 'Show fastp CLI options',
         '--help spades'     : 'Show spades CLI options',
         '--help shovill'    : 'Show shovill CLI options',

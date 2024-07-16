@@ -5,7 +5,7 @@ process DOWNLOAD_REF_GENOME {
     module (params.enable_module ? "${params.swmodulepath}${params.fs}python${params.fs}3.8.1" : null)
     conda (params.enable_conda ? "conda-forge::python=3.10.4" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/python:3.10.4' :
+        'https://depot.galaxyproject.org/singularity/ncbi-datasets-pylib:15.31.1--pyhdfd78af_0' :
         'quay.io/biocontainers/python:3.10.4' }"
 
     input:
@@ -23,6 +23,8 @@ process DOWNLOAD_REF_GENOME {
         def args = task.ext.args ?: ''
         prefix   = task.ext.prefix ?: "${meta.id}"
         """
+        [ -e /usr/local/ssl/cacert.pem ] && export SSL_CERT_FILE=/usr/local/ssl/cacert.pem
+
         datasets download genome accession --assembly-version latest --include genome,gff3 ${meta.id}
 
         unzip ncbi_dataset.zip

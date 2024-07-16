@@ -17,7 +17,9 @@ import requests
 
 
 # Multiple inheritence for pretty printing of help text.
-class MultiArgFormatClasses(argparse.RawTextHelpFormatter, argparse.ArgumentDefaultsHelpFormatter):
+class MultiArgFormatClasses(
+    argparse.RawTextHelpFormatter, argparse.ArgumentDefaultsHelpFormatter
+):
     pass
 
 
@@ -30,7 +32,11 @@ def main() -> None:
 
     # Set logging.
     logging.basicConfig(
-        format="\n" + "=" * 55 + "\n%(asctime)s - %(levelname)s\n" + "=" * 55 + "\n%(message)s\n\n",
+        format="\n"
+        + "=" * 55
+        + "\n%(asctime)s - %(levelname)s\n"
+        + "=" * 55
+        + "\n%(message)s\n\n",
         level=logging.DEBUG,
     )
 
@@ -92,7 +98,9 @@ def main() -> None:
     # Basic checks
 
     if not (os.path.exists(fasta) and os.path.getsize(fasta) > 0):
-        logging.error(f"File\n{os.path.basename(fasta)}\ndoes not exist or the file is empty.")
+        logging.error(
+            f"File\n{os.path.basename(fasta)}\ndoes not exist or the file is empty."
+        )
         exit(1)
 
     try:
@@ -114,11 +122,11 @@ def main() -> None:
                 for key in tax_pred_keys:
                     out[tkey][count].setdefault(key, prediction[key])
         except (KeyError, AttributeError, TypeError) as e:
-            logging.error(
-                "Did not get taxonomy prediction from JSON response. Highly unusual?\n"
+            logging.warning(
+                "Did not get taxonomy prediction from JSON response. Probably no match?\n"
                 + f"KeyError or AttributeError or TypeError:\n{e}"
             )
-            exit(1)
+            exit(0)
 
         try:
             for key in field_keys:

@@ -55,6 +55,8 @@ versions_this_module["${task.process}"] = {
     "yaml": yaml.__version__,
 }
 
+# subprocess.run("cp $versions /galaxy/nf-work-dirs/", shell=True)
+
 with open("$versions") as f:
     versions_by_process = yaml.load(f, Loader=yaml.BaseLoader)
     versions_by_process.update(versions_this_module)
