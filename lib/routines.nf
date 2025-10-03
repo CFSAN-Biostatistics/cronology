@@ -6,7 +6,9 @@
 //
 
 import groovy.json.JsonSlurper
-import nextflow.config.ConfigParser
+import groovy.util.ConfigSlurper
+// import nextflow.config.ConfigParser
+// import nextflow.config.ConfigBuilder
 // import groovy.json.JsonOutput
 
 // ASCII logo
@@ -141,9 +143,13 @@ def validateParamsForFASTQ() {
 // before running
 def summaryOfParams() {
 
-    def pipeline_specific_config = new ConfigParser().setIgnoreIncludes(true).parse(
+    // def pipeline_specific_config = pipeline_specific_config = new ConfigParser().setIgnoreIncludes(true).parse(
+    //     file("${params.workflowsconf}${params.fs}${params.pipeline}.config").text
+    // )
+    def pipeline_specific_config = new ConfigSlurper().parse(
         file("${params.workflowsconf}${params.fs}${params.pipeline}.config").text
     )
+
     Map fgcolors = getANSIColors()
     Map globalparams = [:]
     Map localparams = params.subMap(

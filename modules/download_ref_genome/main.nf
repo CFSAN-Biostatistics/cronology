@@ -3,7 +3,7 @@ process DOWNLOAD_REF_GENOME {
     label "process_pico"
 
     module (params.enable_module ? "${params.swmodulepath}${params.fs}python${params.fs}3.8.1" : null)
-    conda (params.enable_conda ? "conda-forge::python=3.10.4" : null)
+    conda (params.enable_conda ? "conda-forge::python=3.10.4 conda-forge::unzip conda-forge::gzip" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ncbi-datasets-pylib:15.31.1--pyhdfd78af_0' :
         'quay.io/biocontainers/python:3.10.4' }"
